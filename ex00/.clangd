@@ -1,0 +1,9 @@
+CompileFlags:
+  Add:
+    - '-Wall'
+    - '-Wextra'
+    - '-Werror'
+    - '-std=c++98'
+    - '-g3'
+    - '-Iinclude'
+    - '-I/home/apetitco/Documents/CPP-Module-09/ex00/include'
