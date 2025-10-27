@@ -1,43 +1,11 @@
 #ifndef PMERGEME_HPP
 #define PMERGEME_HPP
 
-#include <utility>
-#include <deque>
-#include <vector>
 
 
+	// 1. Take a set of numbers
+	// 2. 
 
-#include <ctime>
-#include <cstdlib>
-
-#define MAXPAIRS 10
-
-void	sortPairs(std::pair<int, int> *pairArray);
-
-
-/// @struct
-typedef struct	s_pair {
-	long long int	left;
-	long long int	right;
-
-	s_pair(long long int left, long long int right) : left(left), right(right) {}
-
-	long long int	min() {
-		return ((left < right) ? left : right);
-	}
-
-	long long int	max() {
-		return ((left > right) ? left : right);
-	}
-}				t_pair;
-
-class	PmergeMe {
-
-private:
-	std::vector<long long int>	container1_;	//<
-	std::deque<long long int>	container2_;	//<
-	
-};
 
 // std::pair;
 // std::deque container1

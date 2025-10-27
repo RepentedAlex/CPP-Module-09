@@ -85,16 +85,9 @@ int	main(int argc, char* argv[]) {
 }
 */
 
-int	main(void) {
-	std::pair<int, int>	pairs[MAXPAIRS];
+int	main(int argc, char* argv[]) {
+	std::vector<int64_t>	vec;
+	std::deque<int64_t>		deq;
 
-	std::srand(std::clock());
-
-	for (int i = 0; i < MAXPAIRS; i++) {
-		pairs[i].first = std::rand() % 900;
-		pairs[i].second = std::rand()% 900;
-	}
-
-	sortPairs(pairs);
-
+	return (0);
 }
