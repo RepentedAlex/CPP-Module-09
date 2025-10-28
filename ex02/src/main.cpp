@@ -1,93 +1,80 @@
 #include <algorithm>
-#include <cstdlib>
+#include <deque>
 #include <exception>
 #include <iostream>
 #include <sstream>
-#include <stdexcept>
+#include <string>
 #include <vector>
-#include <deque>
 
 #include "PmergeMe.hpp"
 
-#define MAX_VAL 3000
 
-static std::vector<long long int>	jacobsthal;	//< vector holding the Jacobsthal Suite.
+static std::vector<int64_t>	jacobsthal; //< vector holding the Jacobsthal Suite.
 
-void	populateJacobsthal() {
-	long long int	first = 0;
-	long long int	second = 1;
-	long long int	tmp = 0;
+void populateJacobsthal() {
+  int64_t first = 0;
+  int64_t second = 1;
+  int64_t tmp = 0;
 
-	jacobsthal.push_back(first);
-	jacobsthal.push_back(second);
+  jacobsthal.push_back(first);
+  jacobsthal.push_back(second);
 
-	for (int i = 2 ; i < 20 ; i++) {
-		tmp = (first * 2) + second;
-		jacobsthal.push_back(tmp);
-		first = second;
-		second = tmp;
-		tmp = 0;
-	}
+  for (int i = 2; i < MAX_VAL; i++) {
+	tmp = (first * 2) + second;
+	jacobsthal.push_back(tmp);
+	first = second;
+	second = tmp;
+	tmp = 0;
+  }
 }
 
-std::vector<long long int>::iterator	isJacobsthal(long long int	num) {
-	std::vector<long long int>::iterator	it = std::find(jacobsthal.begin(), jacobsthal.end(), num);
-	if (it == jacobsthal.end()) {
-		throw std::runtime_error("Number not in Jacobsthal Suite");
-	}
-	return (it);
+std::vector<int64_t>::iterator isJacobsthal(int64_t num) {
+  std::vector<int64_t>::iterator it =
+	std::find(jacobsthal.begin(), jacobsthal.end(), num);
+  if (it == jacobsthal.end()) {
+	throw std::runtime_error("Number not in Jacobsthal Suite");
+  }
+  return (it);
 }
 
-
-/// Discard doubles, as per "we shall also confine our discussion to the cas of distinct keys, so that there are only two possible outcomes of any conversions [...] either Ki < Kj or Ki > Kj" (page 181)
-void	parseArgs(char* args[], int argc) {
-
-	for (int i = 1 ; i < argc ; i++) {
-		std::string	tmp = args[i];
-		std::stringstream	ss(tmp);
-		long long int	num;
-		ss >> num;
-		if (num < 0) {
-			throw std::runtime_error("Negative value in arguments");
-		} else {
-
-		}
+template <class C>
+void parseArgs(char *args[], int argc, C &container) {
+  for (int i = 1; i < argc; i++) {
+	std::string tmp = args[i];
+	std::stringstream strgstrm(tmp);
+	int64_t num = 0;
+	strgstrm >> num;
+	if ( strgstrm.fail() || !strgstrm.eof() || num < 0) {
+	  std::stringstream	error;
+	  error << "Invalid argument at position" << i << ": '" << tmp << "'";
+	  throw std::runtime_error(error.str());
 	}
+	container.push_back(num);
+  }
 }
 
-/*
-int	main(int argc, char* argv[]) {
-	(void)argc;
-	(void)argv;
-	if (argc < 2) {
-		std::cout << "Usage: ./PmergeMe <numbers>" << std::endl;
-		return (1);
-	} else if (argc == 2) {
-		std::string	option = argv[1];
-		if (option == "--version") {
-			std::cout << "CPP09/ex02 v.2.3, made by apetitco" << std::endl;
-			return (0);
-		}
+int main(int argc, char *argv[]) {
+  std::vector<int64_t>	vec;
+  std::deque<int64_t>		deq;
 
-		
-		try {
-			parseArgs(argv, argc);
-		} catch (const std::exception& e) {
-			std::cout << "Error: " << e.what() << std::endl;
-		}
-		populateJacobsthal();
-		std::vector<long long int>	container1;
-		std::deque<long long int>	container2;
+  if (argc < 2) {
+	std::cout << "Usage: ./PmergeMe <numbers>" << std::endl;
+	return (1);
+  }
+  if (argc == 2) {
+	std::string	option = argv[1];
+	if (option == "--version") {
+	  std::cout << "CPP09/ex02 v." << SUB_VER << ", made by apetitco" << std::endl;
+	  return (0);
 	}
+  }
 
+  try {
+	parseArgs(argv, argc, vec);
+	parseArgs(argv, argc, deq);
+  } catch (const std::runtime_error& e) {
+	std::cerr << "Error: " << e.what() << std::endl;
+  }
 
-	return (0);
-}
-*/
-
-int	main(int argc, char* argv[]) {
-	std::vector<int64_t>	vec;
-	std::deque<int64_t>		deq;
-
-	return (0);
+  return (0);
 }

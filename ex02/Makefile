@@ -17,6 +17,7 @@ IFLAGS	=	-I$(INC_DIR)
 CLANG_TIDY_FLAGS	:=	\
 						bugprone-*, \
 						cppcoreguidelines-*, \
+						-cppcoreguidelines-pro-bounds-pointer-arithmetic, \
 						google-*, \
 						clang-analyzer-*, \
 						readability-*, \

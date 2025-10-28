@@ -1,10 +1,25 @@
+/// @file PmergeMe.hpp
+
 #ifndef PMERGEME_HPP
 #define PMERGEME_HPP
 
+#define MAX_VAL 256
+#define SUB_VER "3.0"
 
+///	@brief Parses command-line arguments into a container of non-negative integers.
+///	@tparam C Container type that supports push_back operation (e.g., std::vector or std::deque).
+///	@param[in] args Array of C-style strings containing command-line arguments.
+///	@param[in] argc Number of arguments in the args array.
+///	@param[out] container Reference to container where parsed integers will be stored.
+///	@throws std::runtime_error	If any argument cannot be parsed as a valid non-negative integer, or if the argument
+/// 							contains trailing non-numeric characters.
+///	@note Arguments are processed starting from index 1 (index 0 is typically the program name).
+///	@warning All values must be non-negative (>= 0).
+template <class C>
+void	parseArgs(char* args[], int argc, C& container);
 
-	// 1. Take a set of numbers
-	// 2. 
+// 1. Take a set of numbers
+// 2. 
 
 
 // std::pair;

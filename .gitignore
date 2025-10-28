@@ -35,3 +35,7 @@ html
 btc
 Doxyfile
 tags
+.clangd
+.clang-tidy
+compile_commands.json
+.cache
