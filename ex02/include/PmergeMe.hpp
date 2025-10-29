@@ -1,10 +1,17 @@
 /// @file PmergeMe.hpp
-
 #ifndef PMERGEME_HPP
 #define PMERGEME_HPP
 
+#include <stdint.h>
+
+#include <vector>
+
 #define MAX_VAL 256
 #define SUB_VER "3.0"
+
+
+
+std::vector<std::size_t>&	getJacobsthal(std::size_t size);
 
 ///	@brief Parses command-line arguments into a container of non-negative integers.
 ///	@tparam C Container type that supports push_back operation (e.g., std::vector or std::deque).
@@ -17,6 +24,10 @@
 ///	@warning All values must be non-negative (>= 0).
 template <class C>
 void	parseArgs(char* args[], int argc, C& container);
+
+template <class C>
+C	sortFunction(const C& input);
+
 
 // 1. Take a set of numbers
 // 2. 

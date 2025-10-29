@@ -21,7 +21,8 @@ CLANG_TIDY_FLAGS	:=	\
 						google-*, \
 						clang-analyzer-*, \
 						readability-*, \
-						misc-*
+						misc-*, \
+						-misc-use-anonymous-namespace
 
 ######################
 ### PROJECT LAYOUT ###
@@ -36,7 +37,6 @@ SRC_DIR	:=	src/
 ###############
 
 SRC_FIL	=	main \
-			fj \
 			PmergeMe
 
 SRC	=	$(addprefix $(SRC_DIR), $(addsuffix .cpp, $(SRC_FIL)))
@@ -76,11 +76,11 @@ dev: .clangd .clang-tidy tags
 	@echo "  Add:" >> .clangd
 	@for flag in $(CFLAGS); do \
 		echo "    - '$$flag'" >> .clangd; \
-	done
+		done
 	@for dir in $(INC_DIR); do \
 		abs_dir=$$(realpath $$dir) ; \
 		echo "    - '-I$$abs_dir'" >> .clangd ; \
-	done
+		done
 	@echo "[.clangd generated]"
 
 
@@ -90,7 +90,7 @@ dev: .clangd .clang-tidy tags
 	@echo "Checks: >" > $@
 	@for flag in $(CLANG_TIDY_FLAGS); do \
 		echo "         $$flag" >> $@; \
-	done
+		done
 	@echo "WarningsAsErrors: ''" >> $@
 	@echo "HeaderFilterRegex: ''" >> $@
 	@echo "FormatStyle: none" >> $@
@@ -139,32 +139,32 @@ LIN_STRING		:=	Linking
 
 define link_and_test
 printf "%b" "$(LIN_COLOR)$(LIN_STRING) $(EXE_COLOR)$(@F)$(NO_COLOR)\r"; \
-$(1) 2> $@.log; \
-RESULT=$$?; \
-if [ $$RESULT -ne 0 ]; then \
-  printf "%-60b%b" "$(LIN_COLOR)$(LIN_STRING)$(EXE_COLOR) $@" "$(ERROR_COLOR)$(ERROR_STRING)$(NO_COLOR)\n"   ; \
-elif [ -s $@.log ]; then \
-  printf "%-60b%b" "$(LIN_COLOR)$(LIN_STRING)$(EXE_COLOR) $@" "$(WARN_COLOR)$(WARN_STRING)$(NO_COLOR)\n"   ; \
-else  \
-  printf "%-60b%b" "$(LIN_COLOR)$(LIN_STRING)$(EXE_COLOR) $(@F)" "$(OK_COLOR)$(OK_STRING)$(NO_COLOR)\n"   ; \
-fi; \
-cat $@.log; \
-rm -f $@.log; \
-exit $$RESULT
+	$(1) 2> $@.log; \
+	RESULT=$$?; \
+	if [ $$RESULT -ne 0 ]; then \
+	printf "%-60b%b" "$(LIN_COLOR)$(LIN_STRING)$(EXE_COLOR) $@" "$(ERROR_COLOR)$(ERROR_STRING)$(NO_COLOR)\n"   ; \
+	elif [ -s $@.log ]; then \
+	printf "%-60b%b" "$(LIN_COLOR)$(LIN_STRING)$(EXE_COLOR) $@" "$(WARN_COLOR)$(WARN_STRING)$(NO_COLOR)\n"   ; \
+	else  \
+	printf "%-60b%b" "$(LIN_COLOR)$(LIN_STRING)$(EXE_COLOR) $(@F)" "$(OK_COLOR)$(OK_STRING)$(NO_COLOR)\n"   ; \
+	fi; \
+	cat $@.log; \
+	rm -f $@.log; \
+	exit $$RESULT
 endef
 
 define compile_and_test
 printf "%b" "$(COM_COLOR)$(COM_STRING) $(OBJ_COLOR)$(@F)$(NO_COLOR)\r"; \
-$(1) 2> $@.log; \
-RESULT=$$?; \
-if [ $$RESULT -ne 0 ]; then \
-  printf "%-60b%b" "$(COM_COLOR)$(COM_STRING)$(OBJ_COLOR) $@" "$(ERROR_COLOR)$(ERROR_STRING)$(NO_COLOR)\n"   ; \
-elif [ -s $@.log ]; then \
-  printf "%-60b%b" "$(COM_COLOR)$(COM_STRING)$(OBJ_COLOR) $@" "$(WARN_COLOR)$(WARN_STRING)$(NO_COLOR)\n"   ; \
-else  \
-  printf "%-60b%b" "$(COM_COLOR)$(COM_STRING)$(OBJ_COLOR) $(@F)" "$(OK_COLOR)$(OK_STRING)$(NO_COLOR)\n"   ; \
-fi; \
-cat $@.log; \
-rm -f $@.log; \
-exit $$RESULT
+	$(1) 2> $@.log; \
+	RESULT=$$?; \
+	if [ $$RESULT -ne 0 ]; then \
+	printf "%-60b%b" "$(COM_COLOR)$(COM_STRING)$(OBJ_COLOR) $@" "$(ERROR_COLOR)$(ERROR_STRING)$(NO_COLOR)\n"   ; \
+	elif [ -s $@.log ]; then \
+	printf "%-60b%b" "$(COM_COLOR)$(COM_STRING)$(OBJ_COLOR) $@" "$(WARN_COLOR)$(WARN_STRING)$(NO_COLOR)\n"   ; \
+	else  \
+	printf "%-60b%b" "$(COM_COLOR)$(COM_STRING)$(OBJ_COLOR) $(@F)" "$(OK_COLOR)$(OK_STRING)$(NO_COLOR)\n"   ; \
+	fi; \
+	cat $@.log; \
+	rm -f $@.log; \
+	exit $$RESULT
 endef
